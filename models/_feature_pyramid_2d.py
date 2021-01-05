@@ -12,7 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import layers
+from .. import layers
 
 
 class FPN2D(keras.Model):

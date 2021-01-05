@@ -12,7 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import models
+from .. import models
 
 
 class ResNet18(keras.models.Model):

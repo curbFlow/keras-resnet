@@ -10,7 +10,7 @@ This module implements a number of popular time distributed two-dimensional resi
 import keras.layers
 import keras.regularizers
 
-import layers
+from .. import layers
 
 parameters = {
     "kernel_initializer": "he_normal"

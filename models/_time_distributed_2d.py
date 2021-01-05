@@ -12,7 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import layers
+from .. import layers
 
 
 def TimeDistributedResNet(inputs, blocks, block, include_top=True, classes=1000, freeze_bn=True, *args, **kwargs):

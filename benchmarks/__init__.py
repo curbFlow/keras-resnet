@@ -8,7 +8,7 @@ import pkg_resources
 import sklearn.model_selection
 import tensorflow
 
-import models
+from .. import models
 
 _benchmarks = {
     "CIFAR-10": keras.datasets.cifar10,
