@@ -1,4 +1,4 @@
-import keras_resnet.layers as layers
+from . import layers
 
 custom_objects = {
     'BatchNormalization': layers.BatchNormalization,
