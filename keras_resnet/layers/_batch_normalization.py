@@ -5,7 +5,8 @@ class BatchNormalization(keras.layers.BatchNormalization):
     """
     Identical to keras.layers.BatchNormalization, but adds the option to freeze parameters.
     """
-    def __init__(self, freeze, *args, **kwargs):
+
+    def __init__(self, freeze=False, *args, **kwargs):
         self.freeze = freeze
         super(BatchNormalization, self).__init__(*args, **kwargs)
 
