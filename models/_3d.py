@@ -115,7 +115,7 @@ class ResNet3D18(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -137,13 +137,13 @@ class ResNet3D18(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [2, 2, 2, 2]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [2, 2, 2, 2]
 
         super(ResNet3D18, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             block=blocks.basic_3d,
             include_top=include_top,
             classes=classes,
@@ -159,7 +159,7 @@ class ResNet3D34(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -181,13 +181,13 @@ class ResNet3D34(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [3, 4, 6, 3]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [3, 4, 6, 3]
 
         super(ResNet3D34, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             block=blocks.basic_3d,
             include_top=include_top,
             classes=classes,
@@ -203,7 +203,7 @@ class ResNet3D50(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -225,15 +225,15 @@ class ResNet3D50(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [3, 4, 6, 3]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [3, 4, 6, 3]
 
         numerical_names = [False, False, False, False]
 
         super(ResNet3D50, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             numerical_names=numerical_names,
             block=blocks.bottleneck_3d,
             include_top=include_top,
@@ -250,7 +250,7 @@ class ResNet3D101(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -272,15 +272,15 @@ class ResNet3D101(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [3, 4, 23, 3]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [3, 4, 23, 3]
 
         numerical_names = [False, True, True, False]
 
         super(ResNet3D101, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             numerical_names=numerical_names,
             block=blocks.bottleneck_3d,
             include_top=include_top,
@@ -297,7 +297,7 @@ class ResNet3D152(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -319,15 +319,15 @@ class ResNet3D152(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [3, 8, 36, 3]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [3, 8, 36, 3]
 
         numerical_names = [False, True, True, False]
 
         super(ResNet3D152, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             numerical_names=numerical_names,
             block=blocks.bottleneck_3d,
             include_top=include_top,
@@ -344,7 +344,7 @@ class ResNet3D200(ResNet3D):
 
     :param inputs: input tensor (e.g. an instance of `keras.layers.Input`)
 
-    :param blocks: the network’s residual architecture
+    :param residual_blocks: the network’s residual architecture
 
     :param include_top: if true, includes classification layers
 
@@ -366,15 +366,15 @@ class ResNet3D200(ResNet3D):
 
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
-    def __init__(self, inputs, blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
-        if blocks is None:
-            blocks = [3, 24, 36, 3]
+    def __init__(self, inputs, residual_blocks=None, include_top=True, classes=1000, freeze_bn=False, *args, **kwargs):
+        if residual_blocks is None:
+            residual_blocks = [3, 24, 36, 3]
 
         numerical_names = [False, True, True, False]
 
         super(ResNet3D200, self).__init__(
             inputs,
-            blocks,
+            residual_blocks,
             numerical_names=numerical_names,
             block=blocks.bottleneck_3d,
             include_top=include_top,
