@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-keras_resnet.models._2d
+keras_resnet.models._3d
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-This module implements popular two-dimensional residual models.
+This module implements popular three-dimensional residual models.
 """
 
 import keras.backend
@@ -12,11 +12,11 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import keras_resnet.blocks
-import keras_resnet.layers
+import blocks
+import layers
 
 
-class ResNet2D(keras.Model):
+class ResNet3D(keras.Model):
     """
     Constructs a `keras.models.Model` object using the given block count.
 
@@ -24,7 +24,7 @@ class ResNet2D(keras.Model):
 
     :param blocks: the network’s residual architecture
 
-    :param block: a residual block (e.g. an instance of `keras_resnet.blocks.basic_2d`)
+    :param block: a residual block (e.g. an instance of `keras_resnet.blocks.basic_3d`)
 
     :param include_top: if true, includes classification layers
 
@@ -47,7 +47,7 @@ class ResNet2D(keras.Model):
 
         >>> blocks = [2, 2, 2, 2]
 
-        >>> block = keras_resnet.blocks.basic_2d
+        >>> block = keras_resnet.blocks.basic_3d
 
         >>> model = keras_resnet.models.ResNet(x, classes, blocks, block, classes=classes)
 
@@ -73,10 +73,11 @@ class ResNet2D(keras.Model):
         if numerical_names is None:
             numerical_names = [True] * len(blocks)
 
-        x = keras.layers.Conv2D(64, (7, 7), strides=(2, 2), use_bias=False, name="conv1", padding="same")(inputs)
-        x = keras_resnet.layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn, name="bn_conv1")(x)
+        x = keras.layers.ZeroPadding3D(padding=3, name="padding_conv1")(inputs)
+        x = keras.layers.Conv3D(64, (7, 7), strides=(2, 2), use_bias=False, name="conv1")(x)
+        x = layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn, name="bn_conv1")(x)
         x = keras.layers.Activation("relu", name="conv1_relu")(x)
-        x = keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding="same", name="pool1")(x)
+        x = keras.layers.MaxPooling3D((3, 3), strides=(2, 2), padding="same", name="pool1")(x)
 
         features = 64
 
@@ -99,16 +100,16 @@ class ResNet2D(keras.Model):
         if include_top:
             assert classes > 0
 
-            x = keras.layers.GlobalAveragePooling2D(name="pool5")(x)
+            x = keras.layers.GlobalAveragePooling3D(name="pool5")(x)
             x = keras.layers.Dense(classes, activation="softmax", name="fc1000")(x)
 
-            super(ResNet2D, self).__init__(inputs=inputs, outputs=x, *args, **kwargs)
+            super(ResNet3D, self).__init__(inputs=inputs, outputs=x, *args, **kwargs)
         else:
             # Else output each stages features
-            super(ResNet2D, self).__init__(inputs=inputs, outputs=outputs, *args, **kwargs)
+            super(ResNet3D, self).__init__(inputs=inputs, outputs=outputs, *args, **kwargs)
 
 
-class ResNet2D18(ResNet2D):
+class ResNet3D18(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet18 specifications.
 
@@ -140,10 +141,10 @@ class ResNet2D18(ResNet2D):
         if blocks is None:
             blocks = [2, 2, 2, 2]
 
-        super(ResNet2D18, self).__init__(
+        super(ResNet3D18, self).__init__(
             inputs,
             blocks,
-            block=keras_resnet.blocks.basic_2d,
+            block=blocks.basic_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,
@@ -152,7 +153,7 @@ class ResNet2D18(ResNet2D):
         )
 
 
-class ResNet2D34(ResNet2D):
+class ResNet3D34(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet34 specifications.
 
@@ -184,10 +185,10 @@ class ResNet2D34(ResNet2D):
         if blocks is None:
             blocks = [3, 4, 6, 3]
 
-        super(ResNet2D34, self).__init__(
+        super(ResNet3D34, self).__init__(
             inputs,
             blocks,
-            block=keras_resnet.blocks.basic_2d,
+            block=blocks.basic_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,
@@ -196,7 +197,7 @@ class ResNet2D34(ResNet2D):
         )
 
 
-class ResNet2D50(ResNet2D):
+class ResNet3D50(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet50 specifications.
 
@@ -230,11 +231,11 @@ class ResNet2D50(ResNet2D):
 
         numerical_names = [False, False, False, False]
 
-        super(ResNet2D50, self).__init__(
+        super(ResNet3D50, self).__init__(
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,
@@ -243,7 +244,7 @@ class ResNet2D50(ResNet2D):
         )
 
 
-class ResNet2D101(ResNet2D):
+class ResNet3D101(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet101 specifications.
 
@@ -277,11 +278,11 @@ class ResNet2D101(ResNet2D):
 
         numerical_names = [False, True, True, False]
 
-        super(ResNet2D101, self).__init__(
+        super(ResNet3D101, self).__init__(
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,
@@ -290,7 +291,7 @@ class ResNet2D101(ResNet2D):
         )
 
 
-class ResNet2D152(ResNet2D):
+class ResNet3D152(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet152 specifications.
 
@@ -324,11 +325,11 @@ class ResNet2D152(ResNet2D):
 
         numerical_names = [False, True, True, False]
 
-        super(ResNet2D152, self).__init__(
+        super(ResNet3D152, self).__init__(
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,
@@ -337,7 +338,7 @@ class ResNet2D152(ResNet2D):
         )
 
 
-class ResNet2D200(ResNet2D):
+class ResNet3D200(ResNet3D):
     """
     Constructs a `keras.models.Model` according to the ResNet200 specifications.
 
@@ -371,11 +372,11 @@ class ResNet2D200(ResNet2D):
 
         numerical_names = [False, True, True, False]
 
-        super(ResNet2D200, self).__init__(
+        super(ResNet3D200, self).__init__(
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_3d,
             include_top=include_top,
             classes=classes,
             freeze_bn=freeze_bn,

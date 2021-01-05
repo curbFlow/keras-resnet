@@ -12,7 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import keras_resnet.models
+import models
 
 
 class ResNet18(keras.models.Model):
@@ -34,7 +34,7 @@ class ResNet18(keras.models.Model):
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet18(inputs)
+        outputs = models.ResNet18(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 
@@ -62,7 +62,7 @@ class ResNet34(keras.models.Model):
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet34(inputs)
+        outputs = models.ResNet34(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 
@@ -90,7 +90,7 @@ class ResNet50(keras.models.Model):
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet50(inputs)
+        outputs = models.ResNet50(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 
@@ -118,7 +118,7 @@ class ResNet101(keras.models.Model):
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet101(inputs)
+        outputs = models.ResNet101(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 
@@ -147,7 +147,7 @@ class ResNet152(keras.models.Model):
 
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet152(inputs)
+        outputs = models.ResNet152(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 
@@ -175,7 +175,7 @@ class ResNet200(keras.models.Model):
         >>> model.compile("adam", "categorical_crossentropy", ["accuracy"])
     """
     def __init__(self, inputs, classes):
-        outputs = keras_resnet.models.ResNet200(inputs)
+        outputs = models.ResNet200(inputs)
 
         outputs = keras.layers.Flatten()(outputs.output)
 

@@ -8,8 +8,7 @@ import pkg_resources
 import sklearn.model_selection
 import tensorflow
 
-import keras_resnet.metrics
-import keras_resnet.models
+import models
 
 _benchmarks = {
     "CIFAR-10": keras.datasets.cifar10,
@@ -19,12 +18,12 @@ _benchmarks = {
 
 
 _names = {
-    "ResNet-18": keras_resnet.models.ResNet2D18,
-    "ResNet-34": keras_resnet.models.ResNet2D34,
-    "ResNet-50": keras_resnet.models.ResNet2D50,
-    "ResNet-101": keras_resnet.models.ResNet2D101,
-    "ResNet-152": keras_resnet.models.ResNet2D152,
-    "ResNet-200": keras_resnet.models.ResNet2D200
+    "ResNet-18": models.ResNet2D18,
+    "ResNet-34": models.ResNet2D34,
+    "ResNet-50": models.ResNet2D50,
+    "ResNet-101": models.ResNet2D101,
+    "ResNet-152": models.ResNet2D152,
+    "ResNet-200": models.ResNet2D200
 }
 
 
@@ -110,8 +109,8 @@ def __main__(benchmark, device, name):
     model = _names[name](inputs=x, classes=classes)
 
     metrics = [
-        keras_resnet.metrics.top_1_categorical_error,
-        keras_resnet.metrics.top_5_categorical_error
+        metrics.top_1_categorical_error,
+        metrics.top_5_categorical_error
     ]
 
     model.compile("adam", "categorical_crossentropy", metrics)

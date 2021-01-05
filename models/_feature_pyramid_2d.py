@@ -12,8 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import keras_resnet.blocks
-import keras_resnet.layers
+import layers
 
 
 class FPN2D(keras.Model):
@@ -36,7 +35,7 @@ class FPN2D(keras.Model):
             numerical_names = [True] * len(blocks)
 
         x = keras.layers.Conv2D(64, (7, 7), strides=(2, 2), use_bias=False, name="conv1", padding="same")(inputs)
-        x = keras_resnet.layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn, name="bn_conv1")(x)
+        x = layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn, name="bn_conv1")(x)
         x = keras.layers.Activation("relu", name="conv1_relu")(x)
         x = keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding="same", name="pool1")(x)
 
@@ -175,7 +174,7 @@ class FPN2D50(FPN2D):
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_2d,
             *args,
             **kwargs
         )
@@ -189,7 +188,7 @@ class FPN2D18(FPN2D):
         super(FPN2D18, self).__init__(
             inputs,
             blocks,
-            block=keras_resnet.blocks.basic_2d,
+            block=blocks.basic_2d,
             *args,
             **kwargs
         )
@@ -203,7 +202,7 @@ class FPN2D34(FPN2D):
         super(FPN2D34, self).__init__(
             inputs,
             blocks,
-            block=keras_resnet.blocks.basic_2d,
+            block=blocks.basic_2d,
             *args,
             **kwargs
         )
@@ -220,7 +219,7 @@ class FPN2D101(FPN2D):
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_2d,
             *args,
             **kwargs
         )
@@ -237,7 +236,7 @@ class FPN2D152(FPN2D):
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_2d,
             *args,
             **kwargs
         )
@@ -254,7 +253,7 @@ class FPN2D200(FPN2D):
             inputs,
             blocks,
             numerical_names=numerical_names,
-            block=keras_resnet.blocks.bottleneck_2d,
+            block=blocks.bottleneck_2d,
             *args,
             **kwargs
         )

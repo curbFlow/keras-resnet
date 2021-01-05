@@ -10,7 +10,7 @@ This module implements a number of popular one-dimensional residual blocks.
 import keras.layers
 import keras.regularizers
 
-import keras_resnet.layers
+import layers
 
 parameters = {
     "kernel_initializer": "he_normal"
@@ -82,7 +82,7 @@ def basic_1d(
             **parameters
         )(y)
         
-        y = keras_resnet.layers.BatchNormalization(
+        y = layers.BatchNormalization(
             axis=axis,
             epsilon=1e-5,
             freeze=freeze_bn,
@@ -107,7 +107,7 @@ def basic_1d(
             **parameters
         )(y)
         
-        y = keras_resnet.layers.BatchNormalization(
+        y = layers.BatchNormalization(
             axis=axis,
             epsilon=1e-5,
             freeze=freeze_bn,
@@ -124,7 +124,7 @@ def basic_1d(
                 **parameters
             )(x)
 
-            shortcut = keras_resnet.layers.BatchNormalization(
+            shortcut = layers.BatchNormalization(
                 axis=axis,
                 epsilon=1e-5,
                 freeze=freeze_bn,
@@ -204,7 +204,7 @@ def bottleneck_1d(
             **parameters
         )(x)
 
-        y = keras_resnet.layers.BatchNormalization(
+        y = layers.BatchNormalization(
             axis=axis,
             epsilon=1e-5,
             freeze=freeze_bn,
@@ -229,7 +229,7 @@ def bottleneck_1d(
             **parameters
         )(y)
 
-        y = keras_resnet.layers.BatchNormalization(
+        y = layers.BatchNormalization(
             axis=axis,
             epsilon=1e-5,
             freeze=freeze_bn,
@@ -249,7 +249,7 @@ def bottleneck_1d(
             **parameters
         )(y)
 
-        y = keras_resnet.layers.BatchNormalization(
+        y = layers.BatchNormalization(
             axis=axis,
             epsilon=1e-5,
             freeze=freeze_bn,
@@ -266,7 +266,7 @@ def bottleneck_1d(
                 **parameters
             )(x)
 
-            shortcut = keras_resnet.layers.BatchNormalization(
+            shortcut = layers.BatchNormalization(
                 axis=axis,
                 epsilon=1e-5,
                 freeze=freeze_bn,

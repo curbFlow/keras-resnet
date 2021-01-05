@@ -12,8 +12,7 @@ import keras.layers
 import keras.models
 import keras.regularizers
 
-import keras_resnet.blocks
-import keras_resnet.layers
+import layers
 
 
 def TimeDistributedResNet(inputs, blocks, block, include_top=True, classes=1000, freeze_bn=True, *args, **kwargs):
@@ -64,7 +63,7 @@ def TimeDistributedResNet(inputs, blocks, block, include_top=True, classes=1000,
 
     x = keras.layers.TimeDistributed(keras.layers.ZeroPadding2D(padding=3), name="padding_conv1")(inputs)
     x = keras.layers.TimeDistributed(keras.layers.Conv2D(64, (7, 7), strides=(2, 2), use_bias=False), name="conv1")(x)
-    x = keras.layers.TimeDistributed(keras_resnet.layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn), name="bn_conv1")(x)
+    x = keras.layers.TimeDistributed(layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn), name="bn_conv1")(x)
     x = keras.layers.TimeDistributed(keras.layers.Activation("relu"), name="conv1_relu")(x)
     x = keras.layers.TimeDistributed(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding="same"), name="pool1")(x)
 
@@ -126,7 +125,7 @@ def TimeDistributedResNet18(inputs, blocks=None, include_top=True, classes=1000,
     if blocks is None:
         blocks = [2, 2, 2, 2]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_basic_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_basic_2d, include_top=include_top, classes=classes, *args, **kwargs)
 
 
 def TimeDistributedResNet34(inputs, blocks=None, include_top=True, classes=1000, *args, **kwargs):
@@ -164,7 +163,7 @@ def TimeDistributedResNet34(inputs, blocks=None, include_top=True, classes=1000,
     if blocks is None:
         blocks = [3, 4, 6, 3]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_basic_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_basic_2d, include_top=include_top, classes=classes, *args, **kwargs)
 
 
 def TimeDistributedResNet50(inputs, blocks=None, include_top=True, classes=1000, *args, **kwargs):
@@ -200,7 +199,7 @@ def TimeDistributedResNet50(inputs, blocks=None, include_top=True, classes=1000,
     if blocks is None:
         blocks = [3, 4, 6, 3]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
 
 
 def TimeDistributedResNet101(inputs, blocks=None, include_top=True, classes=1000, *args, **kwargs):
@@ -238,7 +237,7 @@ def TimeDistributedResNet101(inputs, blocks=None, include_top=True, classes=1000
     if blocks is None:
         blocks = [3, 4, 23, 3]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
 
 
 def TimeDistributedResNet152(inputs, blocks=None, include_top=True, classes=1000, *args, **kwargs):
@@ -276,7 +275,7 @@ def TimeDistributedResNet152(inputs, blocks=None, include_top=True, classes=1000
     if blocks is None:
         blocks = [3, 8, 36, 3]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
 
 
 def TimeDistributedResNet200(inputs, blocks=None, include_top=True, classes=1000, *args, **kwargs):
@@ -314,4 +313,4 @@ def TimeDistributedResNet200(inputs, blocks=None, include_top=True, classes=1000
     if blocks is None:
         blocks = [3, 24, 36, 3]
 
-    return TimeDistributedResNet(inputs, blocks, block=keras_resnet.blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
+    return TimeDistributedResNet(inputs, blocks, block=blocks.time_distributed_bottleneck_2d, include_top=include_top, classes=classes, *args, **kwargs)
