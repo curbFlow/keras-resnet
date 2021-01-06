@@ -7,15 +7,14 @@ keras_resnet.models._feature_pyramid_2d
 This module implements popular two-dimensional feature pyramid networks (FPNs).
 """
 
-import keras.backend
-import keras.layers
-import keras.models
-import keras.regularizers
 
+from tensorflow.keras.layers import Conv2D,Activation,MaxPooling2D,UpSampling2D,Add
+from tensorflow.keras.models import Model
+import tensorflow.keras.backend as K
 from .. import layers
 
 
-class FPN2D(keras.Model):
+class FPN2D(Model):
     def __init__(
             self,
             inputs,
@@ -26,7 +25,7 @@ class FPN2D(keras.Model):
             *args,
             **kwargs
     ):
-        if keras.backend.image_data_format() == "channels_last":
+        if K.image_data_format() == "channels_last":
             axis = 3
         else:
             axis = 1
@@ -34,10 +33,10 @@ class FPN2D(keras.Model):
         if numerical_names is None:
             numerical_names = [True] * len(blocks)
 
-        x = keras.layers.Conv2D(64, (7, 7), strides=(2, 2), use_bias=False, name="conv1", padding="same")(inputs)
+        x = Conv2D(64, (7, 7), strides=(2, 2), use_bias=False, name="conv1", padding="same")(inputs)
         x = layers.BatchNormalization(axis=axis, epsilon=1e-5, freeze=freeze_bn, name="bn_conv1")(x)
-        x = keras.layers.Activation("relu", name="conv1_relu")(x)
-        x = keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding="same", name="pool1")(x)
+        x = Activation("relu", name="conv1_relu")(x)
+        x = MaxPooling2D((3, 3), strides=(2, 2), padding="same", name="pool1")(x)
 
         features = 64
 
@@ -59,7 +58,7 @@ class FPN2D(keras.Model):
 
         c2, c3, c4, c5 = outputs
 
-        pyramid_5 = keras.layers.Conv2D(
+        pyramid_5 = Conv2D(
             filters=256,
             kernel_size=1,
             strides=1,
@@ -67,13 +66,13 @@ class FPN2D(keras.Model):
             name="c5_reduced"
         )(c5)
 
-        upsampled_p5 = keras.layers.UpSampling2D(
+        upsampled_p5 = UpSampling2D(
             interpolation="bilinear",
             name="p5_upsampled",
             size=(2, 2)
         )(pyramid_5)
 
-        pyramid_4 = keras.layers.Conv2D(
+        pyramid_4 = Conv2D(
             filters=256,
             kernel_size=1,
             strides=1,
@@ -81,17 +80,17 @@ class FPN2D(keras.Model):
             name="c4_reduced"
         )(c4)
 
-        pyramid_4 = keras.layers.Add(
+        pyramid_4 = Add(
             name="p4_merged"
         )([upsampled_p5, pyramid_4])
 
-        upsampled_p4 = keras.layers.UpSampling2D(
+        upsampled_p4 = UpSampling2D(
             interpolation="bilinear",
             name="p4_upsampled",
             size=(2, 2)
         )(pyramid_4)
 
-        pyramid_4 = keras.layers.Conv2D(
+        pyramid_4 = Conv2D(
             filters=256,
             kernel_size=3,
             strides=1,
@@ -99,7 +98,7 @@ class FPN2D(keras.Model):
             name="p4"
         )(pyramid_4)
 
-        pyramid_3 = keras.layers.Conv2D(
+        pyramid_3 = Conv2D(
             filters=256,
             kernel_size=1,
             strides=1,
@@ -107,17 +106,17 @@ class FPN2D(keras.Model):
             name="c3_reduced"
         )(c3)
 
-        pyramid_3 = keras.layers.Add(
+        pyramid_3 = Add(
             name="p3_merged"
         )([upsampled_p4, pyramid_3])
 
-        upsampled_p3 = keras.layers.UpSampling2D(
+        upsampled_p3 = UpSampling2D(
             interpolation="bilinear",
             name="p3_upsampled",
             size=(2, 2)
         )(pyramid_3)
 
-        pyramid_3 = keras.layers.Conv2D(
+        pyramid_3 = Conv2D(
             filters=256,
             kernel_size=3,
             strides=1,
@@ -125,7 +124,7 @@ class FPN2D(keras.Model):
             name="p3"
         )(pyramid_3)
 
-        pyramid_2 = keras.layers.Conv2D(
+        pyramid_2 = Conv2D(
             filters=256,
             kernel_size=1,
             strides=1,
@@ -133,11 +132,11 @@ class FPN2D(keras.Model):
             name="c2_reduced"
         )(c2)
 
-        pyramid_2 = keras.layers.Add(
+        pyramid_2 = Add(
             name="p2_merged"
         )([upsampled_p3, pyramid_2])
 
-        pyramid_2 = keras.layers.Conv2D(
+        pyramid_2 = Conv2D(
             filters=256,
             kernel_size=3,
             strides=1,
@@ -145,7 +144,7 @@ class FPN2D(keras.Model):
             name="p2"
         )(pyramid_2)
 
-        pyramid_6 = keras.layers.MaxPooling2D(strides=2, name="p6")(pyramid_5)
+        pyramid_6 = MaxPooling2D(strides=2, name="p6")(pyramid_5)
 
         outputs = [
             pyramid_2,
